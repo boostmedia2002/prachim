@@ -183,9 +183,11 @@ a:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:8p
 .pl-link svg{width:15px;height:15px}
 .pl-link:active{background:var(--pink);color:#fff}
 .pl-sub svg{flex:none;width:18px;height:18px;color:var(--pink)}
-.pledge .rgrid{margin-top:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;align-items:start}
+.pledge .rgrid{margin-top:14px;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;align-items:start}
+.pledge .rtotal{margin-top:12px;font-weight:800;font-size:16px;color:var(--ink)}
+.pledge .rtotal b{color:var(--magenta);font-family:var(--display);font-size:26px;font-weight:700}
 .pledge .rgrid figure{padding:4px 4px 3px}
-.pledge .rgrid img{aspect-ratio:auto;height:auto;object-fit:contain;background:#fff;border:1px solid var(--line)}
+.pledge .rgrid img{aspect-ratio:3/4;height:auto;object-fit:cover;object-position:top;background:#fff;border:1px solid #e6dccb}
 .pledge .rgrid .empty{aspect-ratio:4/3}
 .pledge .rgrid a{display:block}
 .pledge .rgrid .empty{display:grid;place-items:center;font-size:13px}
@@ -297,6 +299,7 @@ footer{text-align:center;font-family:var(--display);font-weight:700;font-size:42
           <a class="pl-link" id="charityLink2" target="_blank" rel="noopener">לאתר העמותה<svg aria-hidden="true"><use href="#ext"/></svg></a>
         </div>
       </div>
+      <p class="rtotal" id="rTotal" hidden></p>
       <div class="rgrid" id="receipts" aria-label="קבלות על התרומות"></div>
     </div>
   </section>
@@ -472,6 +475,8 @@ if (document.readyState === 'complete') setTimeout(startVideo, 200);
 else window.addEventListener('load', function(){ setTimeout(startVideo, 200); });
 
 var rg = document.getElementById("receipts");
+var rSum = RECEIPTS.reduce(function(t, r){ var m = /(\d+)\s*₪/.exec(r.label || ""); return t + (m ? +m[1] : 0); }, 0);
+if (rSum) { var rt = document.getElementById("rTotal"); rt.hidden = false; rt.innerHTML = 'נתרם עד היום: <b>' + rSum + ' ₪</b> · לחצו על קבלה להגדלה'; }
 if (RECEIPTS.length) {
   RECEIPTS.forEach(function(r){
     rg.insertAdjacentHTML("beforeend", '<figure><a href="' + r.img + '" target="_blank" rel="noopener"><img src="' + r.img + '" alt="קבלה על תרומה ' + (r.label || "") + '"></a><figcaption>' + (r.label || "") + '</figcaption></figure>');
